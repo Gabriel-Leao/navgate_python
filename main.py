@@ -72,7 +72,7 @@ def read_data_from_csv(file_name):
 
 
 # Função para apresentar os dados em gráficos
-def present_data(all_time_stamps, all_ph_values, all_temp_values, all_ldr_values):
+def present_data(all_ph_values, all_temp_values, all_ldr_values):
     plt.figure(figsize=(19.2, 10.8))
 
     # Gráfico de pH
@@ -127,9 +127,7 @@ def main():
         time_stamps, ph_values, temp_values, ldr_values = read_data_from_csv(csv_file_name)
 
         # Apresentar dados processados
-        present_data(time_stamps, ph_values, temp_values, ldr_values)
-
-        print(f"Gráficos salvos como '{img_file_name}'.")
+        present_data(ph_values, temp_values, ldr_values)
 
     except ValueError as ve:
         print(f"Erro: {ve}")
