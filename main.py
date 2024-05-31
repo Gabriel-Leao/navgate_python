@@ -73,14 +73,13 @@ def read_data_from_csv(file_name):
 
 # Função para apresentar os dados em gráficos
 def present_data(all_time_stamps, all_ph_values, all_temp_values, all_ldr_values):
-    plt.figure(figsize=(15, 10))  # Aumentar o tamanho da figura
+    plt.figure(figsize=(19.2, 10.8))
 
     # Gráfico de pH
     plt.subplot(3, 1, 1)
     plt.plot(all_ph_values, label='pH', color='blue')
     for i, txt in enumerate(all_ph_values):
-        if i != len(all_ph_values) - 2:  # Não plotar o último valor
-            plt.annotate(f'{round(txt, 2)}', (i, all_ph_values[i]), textcoords="offset points", xytext=(0,10), ha='center', fontsize=8)  # Diminuir o tamanho da fonte
+        plt.annotate(f'{round(txt, 2)}', (i, all_ph_values[i]), textcoords="offset points", xytext=(0,10), ha='center', fontsize=8)
     plt.ylabel('pH')
     plt.title('Níveis de pH ao longo do tempo', pad=20)
     plt.legend()
@@ -89,8 +88,7 @@ def present_data(all_time_stamps, all_ph_values, all_temp_values, all_ldr_values
     plt.subplot(3, 1, 2)
     plt.plot(all_temp_values, label='Temperatura (°C)', color='red')
     for i, txt in enumerate(all_temp_values):
-        if i != len(all_temp_values) - 2:  # Não plotar o último valor
-            plt.annotate(f'{round(txt, 2)}', (i, all_temp_values[i]), textcoords="offset points", xytext=(0,10), ha='center', fontsize=8)  # Diminuir o tamanho da fonte
+        plt.annotate(f'{round(txt, 2)}', (i, all_temp_values[i]), textcoords="offset points", xytext=(0,10), ha='center', fontsize=8)
     plt.ylabel('Temperatura (°C)')
     plt.title('Níveis de temperatura ao longo do tempo', pad=20)
     plt.legend()
@@ -99,8 +97,7 @@ def present_data(all_time_stamps, all_ph_values, all_temp_values, all_ldr_values
     plt.subplot(3, 1, 3)
     plt.plot(all_ldr_values, label='Luminosidade', color='green')
     for i, txt in enumerate(all_ldr_values):
-        if i != len(all_ldr_values) - 2:  # Não plotar o último valor
-            plt.annotate(f'{round(txt, 2)}', (i, all_ldr_values[i]), textcoords="offset points", xytext=(0,10), ha='center', fontsize=8)  # Diminuir o tamanho da fonte
+        plt.annotate(f'{round(txt, 2)}', (i, all_ldr_values[i]), textcoords="offset points", xytext=(0,10), ha='center', fontsize=8)
     plt.ylabel('Luminosidade')
     plt.title('Níveis de luminosidade ao longo do tempo', pad=20)
     plt.legend()
@@ -127,21 +124,12 @@ def main():
         save_data_to_csv(csv_file_name, time_stamps, ph_values, temp_values, ldr_values)
 
         # Ler dados do arquivo CSV
-        existing_time_stamps, existing_ph_values, existing_temp_values, existing_ldr_values = read_data_from_csv(csv_file_name)
-
-        # Combinar dados existentes com novos dados
-        all_time_stamps = existing_time_stamps + time_stamps
-        all_ph_values = np.concatenate((existing_ph_values, ph_values))
-        all_temp_values = np.concatenate((existing_temp_values, temp_values))
-        all_ldr_values = np.concatenate((existing_ldr_values, ldr_values))
+        time_stamps, ph_values, temp_values, ldr_values = read_data_from_csv(csv_file_name)
 
         # Apresentar dados processados
-        present_data(all_time_stamps, all_ph_values, all_temp_values, all_ldr_values)
+        present_data(time_stamps, ph_values, temp_values, ldr_values)
 
-        if os.path.isfile(img_file_name):
-            print(f"Arquivo de gráficos '{img_file_name}' atualizado.")
-        else:
-            print(f"Gráficos salvos como '{img_file_name}'.")
+        print(f"Gráficos salvos como '{img_file_name}'.")
 
     except ValueError as ve:
         print(f"Erro: {ve}")
